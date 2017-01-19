@@ -97,20 +97,20 @@
             },
             events: function() {
                 el
-                .on('keydown.mask', function(e) {
+                .bind('keydown.mask', function(e) {
                     el.data('mask-keycode', e.keyCode || e.which);
                     el.data('mask-previus-value', el.val());
                 })
-                .on($.jMaskGlobals.useInput ? 'input.mask' : 'keyup.mask', p.behaviour)
-                .on('paste.mask drop.mask', function() {
+                .bind($.jMaskGlobals.useInput ? 'input.mask' : 'keyup.mask', p.behaviour)
+                .bind('paste.mask drop.mask', function() {
                     setTimeout(function() {
                         el.keydown().keyup();
                     }, 100);
                 })
-                .on('change.mask', function(){
+                .bind('change.mask', function(){
                     el.data('changed', true);
                 })
-                .on('blur.mask', function(){
+                .bind('blur.mask', function(){
                     if (oldValue !== p.val() && !el.data('changed')) {
                         el.trigger('change');
                     }
@@ -118,17 +118,17 @@
                 })
                 // it's very important that this callback remains in this position
                 // otherwhise oldValue it's going to work buggy
-                .on('blur.mask', function() {
+                .bind('blur.mask', function() {
                     oldValue = p.val();
                 })
                 // select all text on focus
-                .on('focus.mask', function (e) {
+                .bind('focus.mask', function (e) {
                     if (options.selectOnFocus === true) {
                         $(e.target).select();
                     }
                 })
                 // clear the value if it not complete the mask
-                .on('focusout.mask', function() {
+                .bind('focusout.mask', function() {
                     if (options.clearIfNotMatch && !regexMask.test(p.val())) {
                        p.val('');
                    }
@@ -168,7 +168,7 @@
                 return new RegExp(r);
             },
             destroyEvents: function() {
-                el.off(['input', 'keydown', 'keyup', 'paste', 'drop', 'blur', 'focusout', ''].join('.mask '));
+                el.unbind(['input', 'keydown', 'keyup', 'paste', 'drop', 'blur', 'focusout', ''].join('.mask '));
             },
             val: function(v) {
                 var isInput = el.is('input'),
